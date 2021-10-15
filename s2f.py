@@ -23,20 +23,10 @@ def main():
             S21 = float(row[5]) + 1j * float(row[6])
             S22 = float(row[7]) + 1j * float(row[8])
 
-            k1 = 1/2/np.sqrt(Z) - S11/2/np.sqrt(Z)
-            k2 = -np.sqrt(Z)/2 - np.sqrt(Z)/2*S11
-            k3 = S12/2/np.sqrt(Z)
-            k4 = -np.sqrt(Z)/2
-            
-            l1 = S21/2/np.sqrt(Z)
-            l2 = np.sqrt(Z)*S21/2
-            l3 = 1/2/np.sqrt(Z) - S22/2/np.sqrt(Z)
-            l4 = np.sqrt(Z)/2 + np.sqrt(Z)*S22/2
-
-            A = (k3-k2*l3/l2)/(k1-k2*l1/l2)
-            B = (k4-k2*l4/l2)/(k1-k2*l1/l2)
-            C =  l3/l2 - l1/l2 * (k3-k2*l3/l2)/(k1-k2*l1/l2)
-            D =  l4/l2 - l1/l2 * (k4-k2*l4/l2)/(k1-k2*l1/l2)
+            A = 1/2 * ((1-S22)/S21 + S12)
+            B = Z/2 * ((1+S22)/S21 - S12)
+            C = 1/2/Z * ((1-S22)/S21 - S12)
+            D = 1/2 * ((1+S22)/S21 + S12)
 
             print(A.real, end=',')
             print(A.imag, end=',')

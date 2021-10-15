@@ -6,6 +6,9 @@ import numpy as np
 from scipy.linalg import sqrtm
 from scipy.linalg import fractional_matrix_power
 
+from scipy.linalg import logm, expm
+
+
 N = 5 # cell number
 
 def main():
@@ -41,25 +44,26 @@ def main():
 
             F_ps = np.matrix([[A,B],[C,D]])
 
-            F_p.append(sqrtm(F_ps))
-
+            F_p.append(fractional_matrix_power(F_ps, 1/2))
 
 
     print("freq[GHz], re(A), im(A), re(B), im(B), re(C), im(C), re(D), im(D)")
 
     for i in range(len(freq)):
-        F_t[i] = np.linalg.inv(F_p[i]) * F_t[i] * np.linalg.inv(F_p[i])
-        F_unit = fractional_matrix_power(F_t[i], 1/N)
+        F_unit = np.linalg.inv(F_p[i]) * F_t[i] * np.linalg.inv(F_p[i])
+        # F_unit = fractional_matrix_power(F_unit, 1/N)
+        F_unit = logm(F_unit)* (1/N)
+        F_unit = expm(F_unit)
         
         print(freq[i], end=',')
-        print(F_unit[0][0].real, end=',')
-        print(F_unit[0][0].imag, end=',')
-        print(F_unit[0][1].real, end=',')
-        print(F_unit[0][1].imag, end=',')
-        print(F_unit[1][0].real, end=',')
-        print(F_unit[1][0].imag, end=',')
-        print(F_unit[1][1].real, end=',')
-        print(F_unit[1][1].imag)
+        print(F_unit[0, 0].real, end=',')
+        print(F_unit[0, 0].imag, end=',')
+        print(F_unit[0, 1].real, end=',')
+        print(F_unit[0, 1].imag, end=',')
+        print(F_unit[1, 0].real, end=',')
+        print(F_unit[1, 0].imag, end=',')
+        print(F_unit[1, 1].real, end=',')
+        print(F_unit[1, 1].imag)
 
 
 if __name__ == "__main__":
