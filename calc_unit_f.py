@@ -6,8 +6,6 @@ import numpy as np
 from scipy.linalg import sqrtm
 from scipy.linalg import fractional_matrix_power
 
-from scipy.linalg import logm, expm
-
 
 N = 5 # cell number
 
@@ -51,9 +49,7 @@ def main():
 
     for i in range(len(freq)):
         F_unit = np.linalg.inv(F_p[i]) * F_t[i] * np.linalg.inv(F_p[i])
-        # F_unit = fractional_matrix_power(F_unit, 1/N)
-        F_unit = logm(F_unit)* (1/N)
-        F_unit = expm(F_unit)
+        F_unit = fractional_matrix_power(F_unit, 1/N)
         
         print(freq[i], end=',')
         print(F_unit[0, 0].real, end=',')
